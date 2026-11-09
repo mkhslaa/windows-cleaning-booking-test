@@ -1,0 +1,25 @@
+{
+  "customers": [
+    {
+      "customer_number": "1",
+      "name": "John",
+      "Windows": "10"
+    },
+
+    {
+      "customer_number": "2",
+      "name": "Paul",
+      "Windows": "5"
+    },
+    {
+      "customer_number": "3",
+      "name": "Ringo",
+      "Windows": "12"
+    },
+    {
+      "customer_number": "4",
+      "name": "George",
+      "Windows": "4"
+    }
+  ]
+}

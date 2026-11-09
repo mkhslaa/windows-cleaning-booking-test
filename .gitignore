@@ -1,0 +1,5 @@
+# Dependencies (re-created anytime with `npm install`)
+node_modules/
+
+# Build output (re-created with `npm run build`)
+dist/

@@ -1,0 +1,25 @@
+{
+  "customer_bookings": [
+    {
+      "booking_number": "1",
+      "customer_number": "4",
+      "date": "2025-10-01"
+    },
+    {
+      "booking_number": "2",
+      "customer_number": "2",
+      "date": "2026-01-10"
+    },
+    {
+      "booking_number": "3",
+      "customer_number": "1",
+      "date": "2025-10-01"
+    },
+    {
+      "booking_number": "4",
+      "customer_number": "3",
+      "date": "2025-10-01"
+    }
+    
+  ]
+}
