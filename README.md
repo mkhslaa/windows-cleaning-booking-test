@@ -12,8 +12,10 @@ It needs node version Node 20.19+ or 22.12 because of Vitest
 - `nvm install –-lts`
 - `nvm use --lts`
 - `node -v`
-- `Install`: Install typescript, @types/node, tsx, vitest
-npm install --save-dev typescript @types/node tsx vitest
+- go to folder where you have done 
+$git clone https://github.com/mkhslaa/windows-cleaning-booking-test.git
+- `$npm install`: will install typescript, @types/node, tsx, vitest
+
 
 ## Compiling to typescript
 npm run build

@@ -146,6 +146,7 @@ describe("getBookings function", () => {
   });
 
   it("should total the cost of windows cleaned based on the filtered options both date and name", () => {
+    // Extra testing for Feature 1 and Feature 2
     const date = "2025-10-01";
     const name = "Ringo";
 
@@ -161,6 +162,7 @@ describe("getBookings function", () => {
   });
 
   it("should total the cost of windows cleaned based on the filtered option date only", () => {
+    // Extra testing for Feature 1 and Feature 2
     const date = "2025-10-01";
     const EXPECTED_TOTAL_COST = 41;
     const results = getBookings(date, undefined);
@@ -175,6 +177,7 @@ describe("getBookings function", () => {
   });
 
   it("should total the cost of windows cleaned based on the filtered option name only", () => {
+    // Extra testing for Feature 1 and Feature 2
     const name = "Ringo";
     const EXPECTED_TOTAL_COST = 17;
     const results = getBookings(undefined, name);
