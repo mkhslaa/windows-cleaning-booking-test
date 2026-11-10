@@ -14,6 +14,7 @@ It needs node version Node 20.19+ or 22.12 because of Vitest
 - `node -v`
 - go to folder where you have done 
 $git clone https://github.com/mkhslaa/windows-cleaning-booking-test.git
+- cd windows-cleaning-booking-test
 - `$npm install`: will install typescript, @types/node, tsx, vitest
 
 
