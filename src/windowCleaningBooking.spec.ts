@@ -1,9 +1,13 @@
 import customersData from "../data/customers.json" with { type: "json" };
 import bookingsData from "../data/customer-bookings.json" with { type: "json" };
+import loyaltyData from "../data/customer-loyalty.json" with { type: "json" };
 import { describe, it, expect } from "vitest";
 
 const COST_PER_WINDOW = 1;
 const COST_PER_PROPERTY = 5;
+
+const COST_PER_WINDOW_PER_LOYALTY = 0.75;
+const COST_PER_LOYALTY = 4;
 
 interface Customer {
   customer_number: string;
@@ -17,13 +21,25 @@ interface Booking {
   date: string;
 }
 
+interface Loyalty {
+  customer_number: string;
+  loyalty_scheme: string;
+  frequency: string;
+}
+
 interface BookingWithWindows extends Booking {
   name: string;
   windows: number;
 }
 
+interface BookingWithWindowsAndLoyalty extends BookingWithWindows {
+  loyalty_scheme: string;
+  frequency: string;
+}
+
 const customers: Customer[] = customersData.customers;
 const bookings: Booking[] = bookingsData.customer_bookings;
+const loyalty: Loyalty[] = loyaltyData.customers_loyalty;
 
 function getBookings(date?: string, name?: string): BookingWithWindows[] {
   const wantDate = date?.trim() || undefined;
@@ -42,6 +58,35 @@ function getBookings(date?: string, name?: string): BookingWithWindows[] {
     })
     .filter((r) => wantDate === undefined || r.date === wantDate)
     .filter((r) => wantName === undefined || r.name.toLowerCase() === wantName);
+}
+
+function getLoyaltyInfo(customer_number: string): BookingWithWindowsAndLoyalty[] {
+  return bookings
+    .filter((b) => b.customer_number === customer_number)
+    .map((b) => {
+      const customer = customers.find(
+        (c) => c.customer_number === b.customer_number,
+      );
+      const loyaltyInfo = loyalty.find(
+        (l) =>
+          l.customer_number === b.customer_number && l.customer_number === customer?.customer_number &&
+          l.loyalty_scheme.toLowerCase() === "yes" &&
+          (l.frequency === "2" || l.frequency === "4"),
+      );
+
+      if (!customer || !loyaltyInfo) {
+        return null;
+      }
+
+      return {
+        ...b,
+        name: customer.name ?? "Unknown",
+        windows: Number(customer.Windows ?? 0),
+        loyalty_scheme: loyaltyInfo.loyalty_scheme,
+        frequency: loyaltyInfo.frequency,
+      };
+    })
+    .filter((r): r is BookingWithWindowsAndLoyalty => r !== null);
 }
 
 function getBookingsCost(booking_number: string): number {
@@ -199,5 +244,39 @@ describe("Feature 2: cost of a booking", () => {
     const expectedCost = COST_PER_PROPERTY + 10 * COST_PER_WINDOW; // 5 + 10*1 = 15
     console.log(`Expected cost for booking ${bookingNumber}: £${expectedCost}`);
     expect(getBookingsCost(bookingNumber)).toBe(expectedCost);
+  });
+});
+
+describe("Feature 3: loyalty program", () => {
+  // Feature 3a and 3b
+  it("returns the correct cost with loyalty benefits", () => {
+    const bookingNumber = "3";
+    const expectedCost = COST_PER_LOYALTY + 10 * COST_PER_WINDOW_PER_LOYALTY; // 4 + 10*0.75 = 11.5
+    console.log(`Expected cost for booking with loyalty benefits ${bookingNumber}: £${expectedCost}`);
+    //expect(getBookingsCost(bookingNumber)).toBe(expectedCost);
+  });
+});
+
+describe("Feature 4: How much to save with the loyalty program", () => {
+  // Feature 4
+  it("returns the savings with loyalty benefits", () => {
+    const customer_number = "3";
+    const results = getLoyaltyInfo(customer_number);
+    console.log(`Bookings for customer number ${customer_number}:`, results);
+     const totalCost = results.reduce(
+      (total, record) =>
+        total + COST_PER_PROPERTY + record.windows * COST_PER_WINDOW,
+      0,
+    );
+
+     const totalCostWithLoyalty = results.reduce(
+      (total, record) =>
+        total + COST_PER_LOYALTY + record.windows * COST_PER_WINDOW_PER_LOYALTY,
+      0,
+    );
+    console.log(`Total cost of windows cleaned: £${totalCost}`);
+    console.log(`Total cost of windows cleaned with loyalty: £${totalCostWithLoyalty}`);
+    const savings = totalCost - totalCostWithLoyalty;
+    console.log(`Total savings with loyalty: £${savings}`);
   });
 });

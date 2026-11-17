@@ -1,0 +1,25 @@
+{
+  "customers_loyalty": [
+    {
+      "customer_number": "1",
+      "loyalty_scheme": "Yes",
+      "frequency": "4"
+    },
+
+    {
+      "customer_number": "2",
+      "loyalty_scheme": "",
+      "frequency": ""
+    },
+    {
+      "customer_number": "3",
+      "loyalty_scheme": "Yes",
+      "frequency": "2"
+    },
+    {
+      "customer_number": "4",
+      "loyalty_scheme": "Yes",
+      "frequency": "4"
+    }
+  ]
+}
